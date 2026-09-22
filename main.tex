@@ -1,0 +1,99 @@
+\documentclass[12pt,a4paper]{article}
+
+
+
+%\usepackage[backend=biber, style=numeric-comp, sorting=none]{biblatex}
+%\addbibresource{refs.bib}
+
+%\usepackage{graphicx, csquotes, tikz, pgfplots, wrapfig}
+%\pgfplotsset{compat = newest}
+%\graphicspath{{./pictures/}}
+
+\usepackage[dutch]{babel}
+\usepackage{csquotes}
+\usepackage{amsmath, amssymb}
+
+\usepackage{listings}
+
+\lstdefinestyle{mystyle}{
+    numbers=left,                    
+    numbersep=5pt,                  
+}
+\lstset{style=mystyle}
+
+\usepackage[hidelinks]{hyperref}
+
+\binoppenalty=100000
+\relpenalty=100000
+
+\allowdisplaybreaks
+
+\title{Verslag Taak 1}
+\author{Lina Martens}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+\section*{Opdracht 1}
+\begin{align*}
+  \intertext{We stellen $n\geq2$ en $r\in\mathbb{R}$. We zullen de hint volgen en $A_n(r)$ partieel integreren.}
+  A_n(r) &= \int_{-1}^{1}\left(1-x^2\right)^n\cos\left(rx\right)\,dx \\
+        &= \left[\left(1-x^2\right)^n\frac{1}{r}\sin\left(rx\right)\right]_{-1}^1 - \int_{-1}^{1}\left(-2n\right)x\left(1-x^2\right)^{n-1}\frac{1}{r}\sin\left(rx\right)\,dx 
+\intertext{We kunnen in deze uitdrukking de eerste term schrappen aangezien $(1-x^2)$ in zowel $-1$ als $1$ nul is. We zullen nu de resterende term opnieuw partieel integreren met}
+  u &= 2nx\left(1-x^2\right)^{n-1}\text{, zodat} \quad du = 2n\left(1-x^2\right)^{n-1} - 4n(n-1)x^2\left(1-x^2\right)^{n-2}\, dx \text{ en} \\
+  dv &= \frac{1}{r}\sin\left(rx\right)\,dx \text{, zodat} \quad v = \frac{-1}{r^2}\cos\left(rx\right).\\
+\intertext{We kunnen $du$ herschrijven als}
+  du &= 2n\left(1-x^2\right)^{n-1} + 4n(n-1)\left(1-x^2\right)^{n-1} - 4n(n-1)\left(1-x^2\right)^{n - 2}\\
+     &= 2n(2n-1)(1-x^2)^{n-1} - 4n(n-1)(1-x^2)^{n-2}.
+\intertext{Dit geeft ons}
+A_n(r) &= \left[2nx\left(1-x^2\right)^{n-1}\frac{-1}{r}\cos\left(rx\right)\right]_{-1}^1 \\
+       &+ \frac{1}{r^2}\int_{-1}^{1}\left[2n(2n-1)(1-x^2)^{n-1} - 4n(n-1)(1-x^2)^{n-2}\right]\cos\left(rx\right)\, dx.
+\intertext{Net als hierboven is de eerste term gelijk aan nul. De lineariteit van de integraal en de formule voor de rij $A_n(r)$ geven ons}
+A_n(r) &= \frac{1}{r^2}\left[2n(2n-1)A_{n-1}(r)-4n(n-1)A_{n-2}(r)\right],
+\end{align*}
+wat te bewijzen was.
+%
+%
+%
+\section*{Opdracht 2}
+We gebruiken de volgende SymPy code om $A_0$ t.e.m. $A_{10}$ te bepalen\footnotemark{}.
+\begin{lstlisting}[language=Python]
+import sympy as sp
+r = sp.symbols('r', nonzero=True)
+x = sp.symbols('x')
+A = [None]*11
+A[0] = sp.integrate((1-x**2)**0*sp.cos(r*x), (x, -1, 1))
+A[1] = sp.integrate((1-x**2)**1*sp.cos(r*x), (x, -1, 1)).simplify()
+for n in range(2, 11):
+    A[n] = (1/r**2)*(2*n*(2*n-1)*A[n-1]-4*n*(n-1)*A[n-2])
+    A[n] = A[n].simplify()
+for f in A:
+    display(sp.collect(f, (sp.cos(r), sp.sin(r)))) 
+\end{lstlisting}
+Dit zijn de uitdrukkingen die we dan bekomen:
+\begin{align*}
+  A_{0}(r) &=\frac{2 \sin{\left(r \right)}}{r} \\
+  A_{1}(r) &=\frac{4 \left(- r \cos{\left(r \right)} + \sin{\left(r \right)}\right)}{r^{3}} \\
+  A_{2}(r) &=\frac{16 \left(- 3 r \cos{\left(r \right)} + \left(3 - r^{2}\right) \sin{\left(r \right)}\right)}{r^{5}} \\
+  A_{3}(r) &=\frac{96 \left(\left(15 - 6 r^{2}\right) \sin{\left(r \right)} + \left(r^{3} - 15 r\right) \cos{\left(r \right)}\right)}{r^{7}} \\
+  A_{4}(r) &=\frac{768 \left(\left(10 r^{3} - 105 r\right) \cos{\left(r \right)} + \left(r^{4} - 45 r^{2} + 105\right) \sin{\left(r \right)}\right)}{r^{9}} \\
+  A_{5}(r) &=\frac{7680 \left(\left(15 r^{4} - 420 r^{2} + 945\right) \sin{\left(r \right)} + \left(- r^{5} + 105 r^{3} - 945 r\right) \cos{\left(r \right)}\right)}{r^{11}} \\
+  A_{6}(r) &=\frac{92160 \left(\left(- 21 r^{5} + 1260 r^{3} - 10395 r\right) \cos{\left(r \right)} + \left(- r^{6} + 210 r^{4} - 4725 r^{2} + 10395\right) \sin{\left(r \right)}\right)}{r^{13}} \\
+  A_{7}(r) &=\frac{1290240}{r^{15}} \bigl(\left(- 28 r^{6} + 3150 r^{4} - 62370 r^{2} + 135135\right) \sin{\left(r \right)}\\ &+ \left(r^{7} - 378 r^{5} + 17325 r^{3} - 135135 r\right) \cos{\left(r \right)}\bigr) \\
+  A_{8}(r) &=\frac{20643840}{r^{17}} \bigl(\left(36 r^{7} - 6930 r^{5} + 270270 r^{3} - 2027025 r\right) \cos{\left(r \right)} \\ &+ \left(r^{8} - 630 r^{6} + 51975 r^{4} - 945945 r^{2} + 2027025\right) \sin{\left(r \right)}\bigr) \\
+  A_{9}(r) &=\frac{371589120}{r^{19}} \bigl(\left(45 r^{8} - 13860 r^{6} + 945945 r^{4} - 16216200 r^{2} + 34459425\right) \sin{\left(r \right)} \\ &+ \left(- r^{9} + 990 r^{7} - 135135 r^{5} + 4729725 r^{3} - 34459425 r\right) \cos{\left(r \right)}\bigr) \\
+  A_{10}(r) &=\frac{7431782400}{r^{21}} \bigl(\left(- 55 r^{9} + 25740 r^{7} - 2837835 r^{5} + 91891800 r^{3} - 654729075 r\right) \cos{\left(r \right)} \\ &+ \left(- r^{10} + 1485 r^{8} - 315315 r^{6} + 18918900 r^{4} - 310134825 r^{2} + 654729075\right) \sin{\left(r \right)}\bigr) \\
+\end{align*}
+
+\footnotetext{Lijn 11 van de code is afkomstig van \url{https://stackoverflow.com/a/16239378}.}
+\section*{Opdracht 3}
+Hi
+\section*{Opdracht 4}
+Hi
+
+\section*{Opdracht 5}
+Hi
+\end{document}
