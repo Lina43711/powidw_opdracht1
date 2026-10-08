@@ -1,7 +1,5 @@
 \documentclass[12pt,a4paper]{article}
 
-
-
 %\usepackage[backend=biber, style=numeric-comp, sorting=none]{biblatex}
 %\addbibresource{refs.bib}
 
@@ -11,7 +9,10 @@
 
 \usepackage[dutch]{babel}
 \usepackage{csquotes}
-\usepackage{amsmath, amssymb}
+\usepackage{amsmath, amssymb, amsthm}
+
+\theoremstyle{definition}
+\newtheorem*{notation*}{Notatie}
 
 \usepackage{listings}
 
@@ -21,6 +22,8 @@
 }
 \lstset{style=mystyle}
 
+\numberwithin{equation}{section}
+
 \usepackage[hidelinks]{hyperref}
 
 \binoppenalty=100000
@@ -29,14 +32,15 @@
 \allowdisplaybreaks
 
 \title{Verslag Taak 1}
-\author{Lina Martens}
-\date{}
+\author{Robin Elskens en Lina Martens}
+\date{} %TODO: Submission date
 
 \begin{document}
 
 \maketitle
-
-
+%
+%TODO: Better
+%
 \section*{Opdracht 1}
 \begin{align*}
   \intertext{We stellen $n\geq2$ en $r\in\mathbb{R}$. We zullen de hint volgen en $A_n(r)$ partieel integreren.}
@@ -56,7 +60,7 @@ A_n(r) &= \frac{1}{r^2}\left[2n(2n-1)A_{n-1}(r)-4n(n-1)A_{n-2}(r)\right],
 \end{align*}
 wat te bewijzen was.
 %
-%
+%TODO: Overfull hbox
 %
 \section*{Opdracht 2}
 We gebruiken de volgende SymPy code om $A_0$ t.e.m. $A_{10}$ te bepalen\footnotemark{}.
@@ -76,23 +80,156 @@ for f in A:
 Dit zijn de uitdrukkingen die we dan bekomen:
 \begin{align*}
   A_{0}(r) &=\frac{2 \sin{\left(r \right)}}{r} \\
-  A_{1}(r) &=\frac{4 \left(- r \cos{\left(r \right)} + \sin{\left(r \right)}\right)}{r^{3}} \\
-  A_{2}(r) &=\frac{16 \left(- 3 r \cos{\left(r \right)} + \left(3 - r^{2}\right) \sin{\left(r \right)}\right)}{r^{5}} \\
+  A_{1}(r) &=\frac{4 \left( \sin{\left(r \right)} - r \cos{\left(r \right)} \right)}{r^{3}} \\
+  A_{2}(r) &=\frac{16 \left( \left(3 - r^{2}\right) \sin{\left(r \right)}- 3 r \cos{\left(r \right)} \right)}{r^{5}} \\
   A_{3}(r) &=\frac{96 \left(\left(15 - 6 r^{2}\right) \sin{\left(r \right)} + \left(r^{3} - 15 r\right) \cos{\left(r \right)}\right)}{r^{7}} \\
-  A_{4}(r) &=\frac{768 \left(\left(10 r^{3} - 105 r\right) \cos{\left(r \right)} + \left(r^{4} - 45 r^{2} + 105\right) \sin{\left(r \right)}\right)}{r^{9}} \\
+  A_{4}(r) &=\frac{768 \left(\left(r^{4} - 45 r^{2} + 105\right) \sin{\left(r \right) + \left(10 r^{3} - 105 r\right) \cos{\left(r \right)}}\right)}{r^{9}} \\
   A_{5}(r) &=\frac{7680 \left(\left(15 r^{4} - 420 r^{2} + 945\right) \sin{\left(r \right)} + \left(- r^{5} + 105 r^{3} - 945 r\right) \cos{\left(r \right)}\right)}{r^{11}} \\
-  A_{6}(r) &=\frac{92160 \left(\left(- 21 r^{5} + 1260 r^{3} - 10395 r\right) \cos{\left(r \right)} + \left(- r^{6} + 210 r^{4} - 4725 r^{2} + 10395\right) \sin{\left(r \right)}\right)}{r^{13}} \\
+  A_{6}(r) &=\frac{92160 \left( \left(- r^{6} + 210 r^{4} - 4725 r^{2} + 10395\right) \sin{\left(r \right)} + \left(- 21 r^{5} + 1260 r^{3} - 10395 r\right) \cos{\left(r \right)}\right)}{r^{13}} \\
   A_{7}(r) &=\frac{1290240}{r^{15}} \bigl(\left(- 28 r^{6} + 3150 r^{4} - 62370 r^{2} + 135135\right) \sin{\left(r \right)}\\ &+ \left(r^{7} - 378 r^{5} + 17325 r^{3} - 135135 r\right) \cos{\left(r \right)}\bigr) \\
-  A_{8}(r) &=\frac{20643840}{r^{17}} \bigl(\left(36 r^{7} - 6930 r^{5} + 270270 r^{3} - 2027025 r\right) \cos{\left(r \right)} \\ &+ \left(r^{8} - 630 r^{6} + 51975 r^{4} - 945945 r^{2} + 2027025\right) \sin{\left(r \right)}\bigr) \\
+  A_{8}(r) &=\frac{20643840}{r^{17}} \bigl(\left(r^{8} - 630 r^{6} + 51975 r^{4} - 945945 r^{2} + 2027025\right) \sin{\left(r \right)} \\ &+ \left(36 r^{7} - 6930 r^{5} + 270270 r^{3} - 2027025 r\right) \cos{\left(r \right)} \bigr) \\
   A_{9}(r) &=\frac{371589120}{r^{19}} \bigl(\left(45 r^{8} - 13860 r^{6} + 945945 r^{4} - 16216200 r^{2} + 34459425\right) \sin{\left(r \right)} \\ &+ \left(- r^{9} + 990 r^{7} - 135135 r^{5} + 4729725 r^{3} - 34459425 r\right) \cos{\left(r \right)}\bigr) \\
-  A_{10}(r) &=\frac{7431782400}{r^{21}} \bigl(\left(- 55 r^{9} + 25740 r^{7} - 2837835 r^{5} + 91891800 r^{3} - 654729075 r\right) \cos{\left(r \right)} \\ &+ \left(- r^{10} + 1485 r^{8} - 315315 r^{6} + 18918900 r^{4} - 310134825 r^{2} + 654729075\right) \sin{\left(r \right)}\bigr) \\
+  A_{10}(r) &=\frac{7431782400}{r^{21}} \bigl( \left(- r^{10} + 1485 r^{8} - 315315 r^{6} + 18918900 r^{4} - 310134825 r^{2} + 654729075\right) \sin{\left(r \right)} \\ &+ \left(- 55 r^{9} + 25740 r^{7} - 2837835 r^{5} + 91891800 r^{3} - 654729075 r\right) \cos{\left(r \right)}\bigr)
 \end{align*}
-
 \footnotetext{Lijn 11 van de code is afkomstig van \url{https://stackoverflow.com/a/16239378}.}
-\section*{Opdracht 3}
-TODO
+\vspace{-10mm} % Weird, but works?
+%
+%TODO: Better general structure
+%TODO: Not self contained
+%
+\setcounter{section}{3} \section*{Opdracht 3}
+We zullen de correctheid van $(1.4)$ aantonen met een inductie op $n$. Merk op dat we $A_0(r)$ en $A_1(r)$, als gevonden in de vorige opdracht, kunnen schrijven als
+\begin{align*}
+    A_0(r) &= \frac{0!}{r}\left(2\sin{\left(r \right)} + 0 \cos{\left(r \right)}\right)\\
+    A_1(r) &= \frac{1!}{r^3}\left(4\sin{\left(r \right)} - 4r\cos{\left(r \right)}\right).
+\end{align*}
+%NOTE: Slordig...
+Hiermee hebben we de basisstap aangetoond en hebben we ook al beginwaarden $P_0\left(r\right)= 2$ en $P_1\left(r\right)= 4$.
+Zij nu $n\in\mathbb{N}$ met $n\geq2$ en veronderstel dat we $A_k$ kunnen schrijven als in (1.4), van zodra $k<n$. We tonen aan dat $A_n$ dan ook aan (1.4) voldoet.
+Uit de recursieformule vinden we
+\begin{align*}
+    A_n(r) &= \frac{1}{r^2}\left[2n(2n-1)A_{n-1}(r)-4n(n-1)A_{n-2}(r)\right]\\
+           &= \frac{1}{r^2}\left[2n(2n-1)\frac{\left(n-1\right)!}{r^{2n-1}}R_{n-1}(r)-4n(n-1)\frac{\left(n-2\right)!}{r^{2n-3}}R_{n-2}(r)\right]\\
+           &= \frac{n!}{r^{2n+1}}\left[\left(4n-2\right)R_{n-1}(r)-4r^2R_{n-2}\right],
+    \intertext{waarbij $R_i(r) := P_i(r)\sin{\left(r\right)} - Q_i(r)\cos{\left(r\right)}$. We concluderen dat}
+% Awkward, maar overfull hbox anders
+    A_n(r) &= \frac{n!}{r^{2n+1}}\left[P_n(r)\sin{\left(x\right)}-Q_n(r)\cos{\left(x\right)}\right],
+\end{align*}
+waarbij $P_n(r)$ en $Q_n(r)$ recursief gedefinieerd zijn als
+\begin{align}
+  P_n(r) &= \left(4n-2\right)P_{n-1}(r)-4r^2P_{n-2}(r) \quad \text{en}\label{eq:recursie_P}\\
+  Q_n(r) &= \left(4n-2\right)Q_{n-1}(r)-4r^2Q_{n-2}(r).
+\label{eq:recursie_Q}
+\end{align}
+
+Uit deze formule volgt inductief dat alle coëfficienten van $P_n$ gehele getallen zijn, aangezien de coëfficienten van $P_0$ en $P_1$ geheel zijn.
+
+\subsection*{Graden van $P_n$ en $Q_n$}
+Voordat we een formule voor de graden van $P_n$ en $Q_n$ geven en aantonen is het handig de volgende propositie te beschouwen.
+\newtheorem{propositie}{propositie}\label{thm:prop1}
+\begin{propositie} Zij $a_n$ een recursief gedefinieerde rij met
+
+$$a_n=
+\begin{cases}
+  -4 a_{n-2} & \text{als $n$ even is}\\
+  \left(4n-2\right)a_{n-1} - 4a_{n-2} & \text{als $n$ oneven is}
+\end{cases}$$
+en beginvoorwaarden $a_0$ en $a_1$, zodat $a_1 = 2a_0$. Dan geldt voor elke oneven $k\in\mathbb{N}$ dat $a_k = k(k+1)a_{k-1}$.
+\end{propositie}
+\begin{proof}
+  We tonen dit aan met inductie. Merk op dat het voldaan zijn van de basisstap een voorwaarde voor de propositie is. 
+  Zij $k$ oneven en veronderstel dat de propositie geldt voor elke oneven $i<k$.
+  Nu geldt dat
+  \begin{align*}
+    a_k &= (4k-2)a_{k-1} - 4a_{k-2}\\
+        &= (4k-2)a_{k-1} - 4(k-2)(k-1)a_{k-3}\\
+        &= (4k-2)a_{k-1}+(k-2)(k-1)a_{k-1}\\
+        &=a_{k-1}(k^2 + k) = k(k+1)a_{k-1}.
+  \end{align*}
+\end{proof}
+Merk op dat deze propositie zegt dat de rij $a_n$ nooit nul is als $a_0$ en $a_1$ geen nul zijn.
+
+\subsubsection*{Graad van $P_n$}
+We tonen de volgende formule aan met inductie: 
+
+\begin{equation}
+\text{Graad$(P_n)=$}
+\begin{cases}
+n & \text{als $n$ even is}\\
+n-1 & \text{als $n$ oneven is}
+\end{cases}
+%UNUSED: \label{eq:graad_P}
+\end{equation}
+Merk op dat voor zowel $P_0$ als $P_1$ de graad 0 zijn, wat in overeenstemming is met de formule.
+Zij $k\in\mathbb{N}$ en veronderstel dat dat de formule geldt voor elke $P_i$ met $i<k$. We hebben nu twee gevallen.\\
+%
+\underline{\textbf{1. $k$ is even}}\\
+Uit de inductiehypothese volgt dat $\text{Graad}(P_{k-1}) = k-2$ en $\text{Graad}(P_{k-2}) = k-2$.
+Volgens de recursieformule \eqref{eq:recursie_P} zal de graad van $P_k(r)$ dus bepaald worden door $-4r^2P_{k-2}(r)$. Er volgt dat $\text{Graad}(P_k) = k-2+2 = k.$
+\\
+\underline{\textbf{2. $k$ is oneven}}\\
+Uit de inductiehypothese volgt dat $\text{Graad}(P_{k-1}) = k-1$ en $\text{Graad}(P_{k-3}) = k-3$.
+Volgens de recursieformule \eqref{eq:recursie_P} zal de graad van $P_k(r)$ dus bepaald worden door $(4k-2)P_{k-1}(r)-4r^2P_{k-2}(r)$. We merken op dat de leidende coëfficienten van $a_i$ van $P_i$ met $i<k$ volgens de inductiehypothese niet nul zijn en voldoen aan de recursieformule uit propositie \hyperref[thm:prop1]{1}, waarbij het even geval hierboven genoteerd staat.
+Omdat de leidende coëfficienten van $P_0$ en $P_1$ resp. 2 en 4 zijn, is aan alle voorwaarden van propositie \hyperref[thm:prop1]{1} voldaan, dus is $a_k = (4k-2)a_{k-1} - 4a_{k-2} = k(k+1)a_{k-1} \neq 0$.
+Hieruit volgt dat $\text{Graad}(P_k) = k-1$.
+
+
+\subsubsection*{Graad van $Q_n$}
+\textbf{TODO: } $Q'$ met andere indices, zodat $n=0$ wegvalt en $Q'$ aan propositie 1 voldoet. \\
+We tonen de volgende formule aan met inductie: 
+
+\begin{equation}
+\text{Graad$(Q_n)=$}
+\begin{cases}
+  0 & \text{als $n=0$}\\
+n-1 & \text{als $n$ even is}\\
+n & \text{als $n$ oneven is}
+\end{cases}
+%UNUSED: \label{eq:graad_P}
+\end{equation}
+Merk op dat voor zowel $Q_0(r) = 0$ de graad 0 is en voor $Q_1(r) = -4r$ de graad 1 is, wat in overeenstemming is met de formule.
+Zij $k\in\mathbb{N}$ en veronderstel dat dat de formule geldt voor elke $P_i$ met $i<k$. We hebben nu twee gevallen.\\
+%
+\underline{\textbf{1. $k$ is even}}\\
+Uit de inductiehypothese volgt dat $\text{Graad}(P_{k-1}) = k-2$ en $\text{Graad}(P_{k-2}) = k-2$.
+Volgens de recursieformule \eqref{eq:recursie_P} zal de graad van $P_k(r)$ dus bepaald worden door $-4r^2P_{k-2}(r)$. Er volgt dat $\text{Graad}(P_k) = k-2+2 = k.$
+\\
+\underline{\textbf{2. $k$ is oneven}}\\
+Uit de inductiehypothese volgt dat $\text{Graad}(P_{k-1}) = k-1$ en $\text{Graad}(P_{k-3}) = k-3$.
+Volgens de recursieformule \eqref{eq:recursie_P} zal de graad van $P_k(r)$ dus bepaald worden door $(4k-2)P_{k-1}(r)-4r^2P_{k-2}(r)$. We merken op dat de leidende coëfficienten van $a_i$ van $P_i$ met $i<k$ volgens de inductiehypothese niet nul zijn en voldoen aan de recursieformule uit propositie \hyperref[thm:prop1]{1}, waarbij het even geval hierboven genoteerd staat.
+Omdat de leidende coëfficienten van $P_0$ en $P_1$ resp. 2 en 4 zijn, is aan alle voorwaarden van propositie \hyperref[thm:prop1]{1} voldaan, dus is $a_k = (4k-2)a_{k-1} - 4a_{k-2} = k(k+1)a_{k-1} \neq 0$.
+Hieruit volgt dat $\text{Graad}(P_k) = k-1$.
+
+\setcounter{section}{4}
 \section*{Opdracht 4}
-TODO
+Zoals beschreven in de opgavenbundel is voor $r=\pi/2$ de integrand van $A_n(r) = \int_{-1}^{1}\left(1-x^2\right)^n\cos\left(rx\right)\,dx$ positief, dus is $0<A_n\left(\frac{\pi}{2}\right).$ 
+Hieruit volgt dat het voldoende is om aan te tonen dat 
+\begin{equation}
+    \frac{a^{2n+1}}{n!}A_n\left(\frac{\pi}{2}\right)\in\mathbb{Z}.\label{eq:4.1}
+\end{equation} 
+Uit de vorige opgave volgt dat 
+$$    \frac{a^{2n+1}}{n!}A_n\left(\frac{\pi}{2}\right) =\frac{a^{2n+1}}{n!}\frac{n!}{\left(\frac{a}{b}\right)^{2n+1}}\left[P_n\left(\frac{a}{b}\right)\sin{\left(\frac{a}{b}\right)}-Q_n\left(\frac{a}{b}\right)\cos{\left(\frac{a}{b}\right)}\right].$$
+    Omdat $a/b = \pi/2$, kunnen we \eqref{eq:4.1} dus herleiden tot
+   \begin{equation}
+       b^{2n+1}P_n\left(\frac{a}{b}\right)\in\mathbb{Z}. \label{eq:4.2}
+   \end{equation}
+We tonen dit aan met inductie. In opdracht 3 zagen we dat $P_0(r) = 2$ en $P_1(r) =4$, dus de basisstap is voldaan. Zij nu $n\geq 2$ en veronderstel dat \eqref{eq:4.2} voldaan is voor elke $k<n$. We gebruiken de recursieformule voor $P_n$ zodat
+\begin{align*}
+     b^{2n+1}P_n\left(\frac{a}{b}\right)&=b^{2n+1}\left[\left(4n-2\right)P_{n-1}\left(\frac{a}{b}\right)-4\frac{a^2}{b^2}P_{n-2}\left(\frac{a}{b}\right)\right]\\
+               &=\left(4n-2\right)b^2\left[b^{2n-1}P_{n-1}\left(\frac{a}{b}\right)\right] - 4a^2b^2\left[b^{2n-3}P_{n-2}\left(\frac{a}{b}\right)\right].
+\end{align*}
+Uit de inductiehypothese en de definitie van $a$ en $b$ volgt dat alle termen in deze gelijkheid geheel zijn, dus is het resultaat opnieuw geheel.
+
+
+% Note: We gebruiken beter geen algemene c, want dan moet je aantonen dat de b_n langs onder begrensd is! Bij c=a^2 is b_n steeds positief.
+%       We noemen de rij ook anders om geen verwarring met a/b = pi/2 te krijgen
 \section*{Opdracht 5}
-TODO
+Stel $c=a^2$ en beschouw de rij $\left\{x_n\right\}_{n\in\mathbb{N}}=\left\{\frac{c^{n}}{n!}\right\}_{n\in\mathbb{N}}$. We kiezen een $N>c$, zodat voor elke $n\in\mathbb{N}$ met $n>N$ geldt dat
+$$\frac{x_{n+1}}{x_n}=\frac{c}{n}<1.$$ Hieruit volgt dat $x_{n+1}<x_n$ en dus daalt de rij $\left\{x_n\right\}_{n>N}$ monotoon. Omdat $c>0$, is deze rij steeds positief en dus langs onder begrensd. Hieruit volgt dat $\left\{x_n\right\}_{n\in\mathbb{N}}$ convergeert. 
+We noemen $x=\lim_{n\to\infty}x_n$. Aangezien $x_{n+1}=\frac{c}{n}x_n$ vinden we door de limiet van beiden leden te nemen dat 
+$$ x = \lim_{n\to\infty} \frac{c}{n} x_n= 0\cdot x, \quad \text{dus } x=0.$$
+Nu volgt dat
+$$\lim_{n\to\infty}\frac{n!}{a^{2n+1}}=\frac{1}{a}\lim_{n\to\infty}\frac{1}{x_n}=\infty.$$
+
+
 \end{document}
