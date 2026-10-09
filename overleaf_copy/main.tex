@@ -9,7 +9,10 @@
 
 \usepackage[dutch]{babel}
 \usepackage{csquotes}
-\usepackage{amsmath, amssymb}
+\usepackage{amsmath, amssymb, amsthm}
+
+\theoremstyle{definition}
+\newtheorem*{notation*}{Notatie}
 
 \usepackage{listings}
 
@@ -39,23 +42,33 @@
 %TODO: Better
 %
 \section*{Opdracht 1}
+Stel $n\geq2$, $r\in\mathbb{R}$ en verneem dat de recursierelatie van $A_i\left(r\right)$ geldt voor alle $i\in\mathbb{N}$ met $i<n$. Zoals in de gegeven hint; we gebruiken partiele integratie op $A_n(r)$.
 \begin{align*}
-  \intertext{We stellen $n\geq2$ en $r\in\mathbb{R}$. We zullen de hint volgen en $A_n(r)$ partieel integreren.}
   A_n(r) &= \int_{-1}^{1}\left(1-x^2\right)^n\cos\left(rx\right)\,dx \\
-        &= \left[\left(1-x^2\right)^n\frac{1}{r}\sin\left(rx\right)\right]_{-1}^1 - \int_{-1}^{1}\left(-2n\right)x\left(1-x^2\right)^{n-1}\frac{1}{r}\sin\left(rx\right)\,dx 
-\intertext{We kunnen in deze uitdrukking de eerste term schrappen aangezien $(1-x^2)$ in zowel $-1$ als $1$ nul is. We zullen nu de resterende term opnieuw partieel integreren met}
-  u &= 2nx\left(1-x^2\right)^{n-1}\text{, zodat} \quad du = 2n\left(1-x^2\right)^{n-1} - 4n(n-1)x^2\left(1-x^2\right)^{n-2}\, dx \text{ en} \\
-  dv &= \frac{1}{r}\sin\left(rx\right)\,dx \text{, zodat} \quad v = \frac{-1}{r^2}\cos\left(rx\right).\\
-\intertext{We kunnen $du$ herschrijven als}
-  du &= 2n\left(1-x^2\right)^{n-1} + 4n(n-1)\left(1-x^2\right)^{n-1} - 4n(n-1)\left(1-x^2\right)^{n - 2}\\
-     &= 2n(2n-1)(1-x^2)^{n-1} - 4n(n-1)(1-x^2)^{n-2}.
+        &= \left[\left(1-x^2\right)^n \raisebox{-1.5ex}{$\displaystyle{\frac{\sin\left(rx\right)}{r}}$}
+        \right]_{-1}^1 + \int_{-1}^{1}2nx\left(1-x^2\right)^{n-1}\raisebox{-1.5ex}{$\displaystyle{\frac{\sin\left(rx\right)}{r}}$}^2\,dx 
+\end{align*}
+In deze uitdrukking kan de eerste term worden geschrapt omdat $(1-x^2)$ in zowel $-1$ als $1$ aan nul gelijk is. We zullen nu opnieuw de resterende term partieel integreren met
+\begin{align*}
+  u &= 2nx\left(1-x^2\right)^{n-1} \quad \text{zodat} \quad du= 2n\left(1-x^2\right)^{n-1} - 4n(n-1)x^2\left(1-x^2\right)^{n-2}\, dx\\
+  dv &= \raisebox{-1.0ex}{$\displaystyle{\frac{\sin\left(rx\right)}{r}}$}dx \quad \text{zodat} \quad v= \raisebox{-1.0ex}{$\displaystyle{\frac{\sin\left(rx\right)}{r}}$}
+  \end{align*}
+$du$ kan herschreven worden als
+\begin{align*}
+  du &= \left[2n\left(1-x^2\right)-4x^2n\left(n-1\right)\right]\left(1-x^2\right)^{n-2}dv \\
+  &= \left[2n+2x^2n-4x^2n^2 \right]\left(1-x^2\right)^{n-2}dv \\
+  &= \left[4n-4n^2-2n\left(1-x^2\right)+4n^2\left(1-x^2\right)\right]\left(1-x^2\right)^{n-2}dv \\
+  &= 2n\left(2n-1\right)\left(1-x^2\right)^{n-1}-4n\left(n-1\right)\left(1-x^2\right)^{n-2} dv
 \intertext{Dit geeft ons}
 A_n(r) &= \left[2nx\left(1-x^2\right)^{n-1}\frac{-1}{r}\cos\left(rx\right)\right]_{-1}^1 \\
        &+ \frac{1}{r^2}\int_{-1}^{1}\left[2n(2n-1)(1-x^2)^{n-1} - 4n(n-1)(1-x^2)^{n-2}\right]\cos\left(rx\right)\, dx.
-\intertext{Net als hierboven is de eerste term gelijk aan nul. De lineariteit van de integraal en de formule voor de rij $A_n(r)$ geven ons}
-A_n(r) &= \frac{1}{r^2}\left[2n(2n-1)A_{n-1}(r)-4n(n-1)A_{n-2}(r)\right],
 \end{align*}
-wat te bewijzen was.
+Net als hierboven wordt de eerste term nul. Uit de lineariteit van de integraal en de formule voor de rij $A_n(r)$ wordt besloten dat
+\begin{equation}
+A_n(r) = \frac{1}{r^2}\left[2n(2n-1)A_{n-1}(r)-4n(n-1)A_{n-2}(r)\right]
+\label{eq:A_recursie}
+\end{equation}
+
 %
 %TODO: Overfull hbox
 %
@@ -86,7 +99,10 @@ Dit zijn de uitdrukkingen die we dan bekomen:
   A_{7}(r) &=\frac{1290240}{r^{15}} \bigl(\left(- 28 r^{6} + 3150 r^{4} - 62370 r^{2} + 135135\right) \sin{\left(r \right)}\\ &+ \left(r^{7} - 378 r^{5} + 17325 r^{3} - 135135 r\right) \cos{\left(r \right)}\bigr) \\
   A_{8}(r) &=\frac{20643840}{r^{17}} \bigl(\left(r^{8} - 630 r^{6} + 51975 r^{4} - 945945 r^{2} + 2027025\right) \sin{\left(r \right)} \\ &+ \left(36 r^{7} - 6930 r^{5} + 270270 r^{3} - 2027025 r\right) \cos{\left(r \right)} \bigr) \\
   A_{9}(r) &=\frac{371589120}{r^{19}} \bigl(\left(45 r^{8} - 13860 r^{6} + 945945 r^{4} - 16216200 r^{2} + 34459425\right) \sin{\left(r \right)} \\ &+ \left(- r^{9} + 990 r^{7} - 135135 r^{5} + 4729725 r^{3} - 34459425 r\right) \cos{\left(r \right)}\bigr) \\
-  A_{10}(r) &=\frac{7431782400}{r^{21}} \bigl( \left(- r^{10} + 1485 r^{8} - 315315 r^{6} + 18918900 r^{4} - 310134825 r^{2} + 654729075\right) \sin{\left(r \right)} \\ &+ \left(- 55 r^{9} + 25740 r^{7} - 2837835 r^{5} + 91891800 r^{3} - 654729075 r\right) \cos{\left(r \right)}\bigr)
+  \begin{split}
+  A_{10}(r) &=\frac{7431782400}{r^{21}} \bigl( \left(- r^{10} + 1485 r^{8} - 315315 r^{6} + 18918900 r^{4} - 310134825 r^{2} + 654729075\right) \\
+  & \sin{\left(r \right)} + \left(- 55 r^{9} + 25740 r^{7} - 2837835 r^{5} + 91891800 r^{3} - 654729075 r\right) \cos{\left(r \right)}\bigr)
+  \end{split}
 \end{align*}
 \footnotetext{Lijn 11 van de code is afkomstig van \url{https://stackoverflow.com/a/16239378}.}
 \vspace{-10mm} % Weird, but works?
@@ -94,158 +110,163 @@ Dit zijn de uitdrukkingen die we dan bekomen:
 %TODO: Better general structure
 %TODO: Not self contained
 %
-\setcounter{section}{3}
-\section*{Opdracht 3}
-We zullen de correctheid van $(1.4)$ aantonen met een inductie op $n$. Merk op dat we $A_0(r)$ en $A_1(r)$, als gevonden in de vorige opdracht, kunnen schrijven als
+\setcounter{section}{3} \section*{Opdracht 3}
+We zullen de correctheid van $(1.4)$ (uit de werktekst) aantonen met een inductie op $n$. Merk op dat we $A_0(r)$ en $A_1(r)$, zoals gevonden in de vorige opdracht, kunnen schrijven als
 \begin{align*}
     A_0(r) &= \frac{0!}{r}\left(2\sin{\left(r \right)} + 0 \cos{\left(r \right)}\right)\\
     A_1(r) &= \frac{1!}{r^3}\left(4\sin{\left(r \right)} - 4r\cos{\left(r \right)}\right).
 \end{align*}
 %NOTE: Slordig...
-Hiermee hebben we de basisstap aangetoond en hebben we ook al beginwaarden $P_0\left(r\right)= 2$ en $P_1\left(r\right)= 4$.
-Zij nu $n\in\mathbb{N}$ met $n\geq2$ en veronderstel dat we $A_k$ kunnen schrijven als in (1.4), van zodra $k<n$. We tonen aan dat $A_n$ dan ook aan (1.4) voldoet.
-Uit de recursieformule vinden we
+Hiermee hebben we de basisstap aangetoond en vinden we alvast de beginwaarden $P_0\left(r\right)= 2$ en $P_1\left(r\right)= 4$.
+Zij nu $n\in\mathbb{N}$ met $n\geq2$ en veronderstel van zodra $k<n$ dat we $A_k$ kunnen schrijven als in (1.4). We tonen nu dat ook $A_n$ aan (1.4) voldoet.
+Uit \eqref{eq:A_recursie} is
 \begin{align*}
     A_n(r) &= \frac{1}{r^2}\left[2n(2n-1)A_{n-1}(r)-4n(n-1)A_{n-2}(r)\right]\\
            &= \frac{1}{r^2}\left[2n(2n-1)\frac{\left(n-1\right)!}{r^{2n-1}}R_{n-1}(r)-4n(n-1)\frac{\left(n-2\right)!}{r^{2n-3}}R_{n-2}(r)\right]\\
            &= \frac{n!}{r^{2n+1}}\left[\left(4n-2\right)R_{n-1}(r)-4r^2R_{n-2}\right],
-    \intertext{waarbij $R_i(r) := P_i(r)\sin{\left(r\right)} - Q_i(r)\cos{\left(r\right)}$. We concluderen dat}
-    A_n(r) &= \frac{n!}{r^{2n+1}}\left[\left(\left(4n-2\right)P_{n-1}(r)-4r^2P_{n-2}(r)\right)\sin{\left(x\right)}-\left(\left(4n-2\right)Q_{n-1}(r)-4r^2Q_{n-2}(r)\right)\cos{\left(x\right)}\right].
+    \intertext{waardat $R_i(r) = P_i(r)\sin{\left(r\right)} - Q_i(r)\cos{\left(r\right)}$. We concluderen dat}
+% Awkward, maar overfull hbox anders
+    A_n(r) &= \frac{n!}{r^{2n+1}}\left[P_n(r)\sin{\left(x\right)}-Q_n(r)\cos{\left(x\right)}\right],
 \end{align*}
-%TODO: overfull hbox
-Hieruit volgt ook de recursierelatie 
-\begin{equation}
-P_n(r) = \left(4n-2\right)P_{n-1}(r)-4r^2P_{n-2}(r).
-\label{eq:3.1}
-\end{equation}
+waarbij $P_n(r)$ en $Q_n(r)$ recursief werden gedefinieerd als
+\begin{align}
+  P_n(r) &= \left(4n-2\right)P_{n-1}(r)-4r^2P_{n-2}(r) \quad \text{en}\label{eq:recursie_P}\\
+  Q_n(r) &= \left(4n-2\right)Q_{n-1}(r)-4r^2Q_{n-2}(r).
+\label{eq:recursie_Q}
+\end{align}
 
-Uit deze formule vinden we inductief dat alle coëfficienten van $P_n$ gehele getallen zijn, aangezien de coëfficienten van $P_0$ en $P_1$ geheel zijn.
-%TODO: Onvoldoende? 
-% expressie AN opschonen
-%
-%
-\subsubsection*{Graden van $P_i$ en $Q_i$}
-Uit de bekomen recursierelaties voor $P_i(r)$ en $Q_i(r)$ staat er ons nog voor de graden van deze veeltermen te bepalen.
-Hiervoor leggen we eerst de aandacht op de graad van $P_n(r)$, we beweren namelijk dat deze kan berekend worden door de formule:
+We kunnen zonder te veel verbeelding te hoeven gebruiken zien dat; om $P_n$ te bekomen in \eqref{eq:recursie_P} we telkens de coëfficienten van $P_{n-1}$ als $P_{n-2}$ vermenigvuldigen met gehele getallen. Omwille ervan dat initieel de coëfficienten van $P_0$ en $P_1$ geheel zijn, zal tevens ook in het algemeen $P_n$ enkel gehele coëfficienten bevatten.
 
-\begin{equation}
-\text{Graad$(P_n(r))=$}
+\subsection*{Graden van $P_n$ en $Q_n$}
+Voordat we een formule voor de graden van $P_n$ en $Q_n$ geven en aantonen is het handig de volgende proposities te beschouwen.
+\newtheorem{propositie}{propositie}\label{thm:prop1}
+\begin{propositie} Zij  $\left\{a_n\right\}_{n\in\mathbb{N}}$ een recursief gedefinieerde rij met
+
+$$a_n=
 \begin{cases}
-i-1 & \text{als $i$ oneven is}\\
-i & \text{als $i$ even is}
-\end{cases}
-\label{eq:3.2}
-\end{equation}
+  -4 a_{n-2} & \text{als $n$ even is}\\
+  \left(4n-2\right)a_{n-1} - 4a_{n-2} & \text{als $n$ oneven is}
+\end{cases}$$
+en beginvoorwaarden $a_0=2$ en $a_1=4$. Dan geldt voor elke oneven $k\in\mathbb{N}$ dat $a_k = k(k+1)a_{k-1}$.
+\end{propositie}
+\begin{proof}
+  We tonen dit aan met inductie. Merk op dat $a_1 = 2a_0$, zodat aan de basisstap voldaan wordt. 
+  Zij $k$ oneven en veronderstel dat de propositie geldt voor elke oneven $i<k$.
+  Nu geldt dat
+  \begin{align*}
+    a_k &= (4k-2)a_{k-1} - 4a_{k-2}\\
+        &= (4k-2)a_{k-1} - 4(k-2)(k-1)a_{k-3}\\
+        &= (4k-2)a_{k-1}+(k-2)(k-1)a_{k-1}\\
+        &=a_{k-1}(k^2 + k) = k(k+1)a_{k-1}.
+  \end{align*}
+\end{proof}
 
-Hierbij introduceren we ook een notatie die van pas zal komen om \ref{eq:3.2} mee aan te kunnen tonen.
 
-
-\newtheorem{notation}{Notatie}[section]
-\begin{notation}
-Schrijf $a_n$ voor de leidende coëfficient van de veelterm $P_n$. Per keuze zal $a_n\neq0$ en definieer
-$b_n=(4n-2)a_{n-1}-4a_{n-2}$.
-\end{notation}
-
-De formule kan nu met behulp van inductie afgeleid worden.
-
-Beschouw de veeltermen:
-$$P_0=2 \qquad \text{en} \qquad P_1=4$$
-Er geldt voor $P_0$ en $P_1$ dat beiden graden $0$ zijn zodat formule \ref{eq:3.2} voor de beide veeltermen standhoud.
-Veronderstel dus dat voor alle  $i \in\mathbb{N}$ met $0\leq i \leq n-1$,
-\ref{eq:3.2} de juiste graad geeft voor $P_i$ en dat 
-
-\begin{equation}
-a_i=
+\label{thm:prop2}
+\begin{propositie} Zij $\left\{b_n\right\}_{n\in\mathbb{N}}$ een recursief gedefinieerde rij met
+$$b_n=
 \begin{cases}
--4a_{n-2} & \text{als $i$ oneven is}\\
-(4n-2)a_{n-1}-4a_{n-2} & \text{als $i$ even is}
+ 0 & \text{als $n=0$} \\
+  -4 b_{n-2} & \text{als $n$ oneven is}\\
+  \left(4n-2\right)b_{n-1} - 4b_{n-2} & \text{als $n$ even is}
+\end{cases}$$
+en beginvoorwaarden $b_0=0$, $b_1=4$. Dan geldt voor elke even $k\in\mathbb{N}_0$ dat $b_k = k(k+1)b_{k-1}$.
+\end{propositie}
+\begin{proof}
+  We tonen dit aan met inductie. Merk op dat $b_2 =24= 6b_1$, zodat aan de basisstap voldaan wordt.  
+  Zij $k\neq 0$ even en veronderstel dat de propositie geldt voor elke even $i<k$. De redenering die opvolgt is nu volledig analoog aan die gegeven in propositie \hyperref[thm:prop2]{1} door in het bewijs namelijk het woord even telkens om te wisselen met oneven en vice versa.
+\end{proof}
+Merk op dat deze proposities zeggen dat deze rijen nooit nul zullen zijn.
+
+\subsubsection*{Graad van $P_n$}
+We tonen de volgende formule aan met inductie: 
+
+\begin{equation*}
+\text{Graad$(P_n)=$}
+\begin{cases}
+n & \text{als $n$ even is}\\
+n-1 & \text{als $n$ oneven is}
 \end{cases}
-\label{eq:3.3}
-\end{equation}
-En daar te boven wanneer $i$ oneven is, dat dan 
-
-\begin{equation}
-a_i=i(i+1)a_{i-1}.
-\label{eq:3.4}
-\end{equation}
-
-
-%vind formule voor a_n
-
-\vspace{2.5mm}
-Om de inductie af te kunnen maken: hoeven we te bewijzen dat formule \ref{eq:3.2} de juiste graad van $P_n$ oplevert, dat \ref{eq:3.3} waar is, en in het geval dat $n$ oneven is, dat dan $a_n=n(n+1)a_{n-1}$. Aldus beschouwen we de gevallen waarin $n$ even is of $n$ oneven afzonderlijk.
+%UNUSED: \label{eq:graad_P}. Remove * from equation when needed.
+\end{equation*}
+Laat $a_n$ de leidende coëfficient van de veelterm $P_n$ zijn.
+Merk op dat voor zowel $P_0$ als $P_1$ de graad 0 is en dat ditgene in overeenstemming is met de formule.
+Zij $k\in\mathbb{N}$ en veronderstel dat de formule geldt voor elke $P_i$ met $i<k$. We hebben nu twee gevallen.\\
+%
+\underline{\textbf{1. $k$ is even}}\\
+Uit de inductiehypothese volgt dat $\text{Graad}(P_{k-1}) = k-2$ en $\text{Graad}(P_{k-2}) = k-2$.
+Volgens de recursieformule \eqref{eq:recursie_P} zal de graad van $P_k(r)$ dus bepaald worden door $-4r^2P_{k-2}(r)$. Er volgt dat $\text{Graad}(P_k) = k-2+2 = k.$ en dat $a_n=-4a_{n-2}$
 \\
-\begin{enumerate}
-\item $n$ is even \\
-Uit de formule \ref{eq:3.2} zal Graad$(P_{n-1}(r))=n-2$ en Graad$(P_{n-2}(r))=n-2$, dus volgens de recursiebetrekking \ref{eq:3.1} zal de graad van $P_n(r)$ bepaald worden door $-4r^2P_{n-2}(r)$, zodat Graad($P_n(r))=n$.
-Daarmee zal ook $a_n=-4a_{n-2}$.
-\item $n$ is oneven \\
-Uit de formule \ref{eq:3.2} zal Graad$(P_{n-1}(r))=n-1$ en Graad$(P_{n-2}(r))=n-3$. We zullen hoeven voorzichtig om te gaan met de recursiebetrekking \ref{eq:3.1}, want de coëfficient van $P_n(r)$ die aan de macht $r^{n-1}$ zit is gelijk aan $b_n$ en er hoeft namelijk nog getoond te worden dat $b_n\neq0$ om te kunnen verzekeren dat weldegelijk Graad$(P_n(r))=n-1$. 
-
+\underline{\textbf{2. $k$ is oneven}}\\
+Uit de inductiehypothese volgt dat $\text{Graad}(P_{k-1}) = k-1$ en $\text{Graad}(P_{k-2}) = k-3$.
+Volgens de recursieformule \eqref{eq:recursie_P} zal de graad van $P_k(r)$ hoogstens $k-1$ zijn, maar ofdat $P_k(r)=k-1$ is enkel waar zolang dat de coëfficient van de $r^{n-1}$ term niet nul is. Dus willen we aantonen dat
+$$a_k=(4k-2)a_{k-1}-4a_{k-2}\neq0$$
+We merken op dat de $a_i$ met $i<k$ volgens de inductiehypothese niet nul zijn en dat de $a_i$ dezelfde recursieve formule volgen als in Propositie \hyperref[thm:prop1]{1}. Immers uit puntje 1 is
 \begin{align*}
-b_n
-&=(4n-2)a_{n-1}-4a_{n-2}\\
-&=(4n-2)a_{n-1}-4(n-2)(n-3)a_{n-3} \\
-&=(4n-2)a_{n-1}+(n-2)(n-1)a_{n-1} \\
-&=(n^2+n)a_{n-1} \\
-&=n(n+1)a_{n-1} \\
+a_i&=-4a_{i-2} \qquad \text{als $i$ even is} \\
+\intertext{en omwille van de redenering bij puntje $2$ samen met onze inductiehypothese: }
+a_i&=(4i-2)a_{i-1}-4a_{i-2} \qquad \text{als $i$ oneven is}
 \end{align*}
+Sinds de leidende coëfficienten van $P_0$ en $P_1$ resp. 2 en 4 zijn, wordt er aan alle voorwaarden van propositie \hyperref[thm:prop1]{1} voldaan. \\
+Zodat $a_k = k(k+1)a_{k-1} \neq 0$.
+Hieruit volgt dat $\text{Graad}(P_k) = k-1$.
 
 
-Hieruit is te ontleiden dat $b_n\neq0$ zodat $a_n=b_n$. De formules \ref{eq:3.3} en \ref{eq:3.4} blijven hiermee juist voor $n$ 
-\end{enumerate}
-Dit rond onze inductiehypothese af voor beide gevallen van $n$, \ref{eq:3.2} is daarmee bewezen.
-%Geval Q nog uitwerken want bovenstaande redenering verlengt hiernaar niet onmiddelijk!
-\\Voor de functies $Q_i(r)$ zijn 
-$$Q_0=0 \qquad \text{en} \qquad Q_1=-4r$$
-en kunnen wij gelijkaardig $c_n$ schrijven voor de leidende coëfficient van $Q_n(r)$ en $d_n$ voor de waarde $(4n-2)c_{n-1}-4c_{n-2}$
+\subsubsection*{Graad van $Q_n$}
+We tonen analoog als hierboven aan dat de volgende formule aan met inductie: 
 
-We beweren dat 
-\vspace{1.5pt}
-\begin{equation}
-\text{Graad$(Q_n(r))=$}
+\begin{equation*}
+\text{Graad$(Q_n)=$}
 \begin{cases}
-i & \text{als $i$ oneven is}\\
-i-1 & \text{als $i$ even is}
+  0 & \text{als $n=0$}\\
+n-1 & \text{als $n$ even is}\\
+n & \text{als $n$ oneven is}
 \end{cases}
-\label{eq:3.5}
-\end{equation}
-
-Veronderstel uit inductie dat deze formule waar is voor $i$ met $0\leq i<n$.
-In het geval dat $n$ even is zal de leidende coëfficient van $Q_n(r)$ overeen komen met $c=c_n$.
-En voor $n$ oneven wordt de leidende coëfficient $-4c_{n-2}$. 
-\vspace{2mm}
-
-Dus kunnen we analoog door telkens in het bewijs van \ref{eq:3.2} het woord even met oneven te vervangen en vice versa, bewijzen dat \ref{eq:3.5} waar is.
-
+%UNUSED: \label{eq:graad_Q}. Remove * from equation when needed.
+\end{equation*}
+Merk op dat voor $Q_0(r) = 0$, $Q_1(r) = 4r$ en  $Q_2(r)=24r$ de formule geldt.
+Zij $k\in\mathbb{N}$ en veronderstel dat dat de formule geldt voor elke $P_i$ met $i<k$. We hebben nu twee gevallen.\\
+%
+\underline{\textbf{1. $k$ is oneven}}\\
+Uit de inductiehypothese volgt dat $\text{Graad}(Q_{k-1}) = k-2$ en $\text{Graad}(Q_{k-2}) = k-2$.
+Volgens de recursieformule \eqref{eq:recursie_Q} zal de graad van $Q_k(r)$ dus bepaald worden door $-4r^2Q_{k-2}(r)$. Er volgt dat $\text{Graad}(Q_k) = k-2+2 = k.$
+\\
+\underline{\textbf{2. $k$ is even}}\\
+Uit de inductiehypothese volgt dat $\text{Graad}(Q_{k-1}) = k-1$ en $\text{Graad}(Q_{k-2}) = k-3$.
+Volgens de recursieformule \eqref{eq:recursie_P} zal de graad van $Q_k(r)$ dus bepaald worden door $(4k-2)Q_{k-1}(r)-4r^2Q_{k-2}(r)$. We merken op dat de leidende coëfficienten van $a_i$ van $Q_i$ met $i<k$  niet nul zijn en analoog aan het bewijs voor de graad van $P_n$ voldoen aan de recursieformule uit propositie \hyperref[thm:prop2]{2}.
+Sinds de leidende coëfficienten van $Q_0$, $Q_1$ en $Q_2$ resp. 0, 4 en 24 zijn, is aan  de voorwaarden van propositie \hyperref[thm:prop2]{2} voldaan, dus is $a_k = (4k-2)a_{k-1} - 4a_{k-2} = k(k+1)a_{k-1} \neq 0$.
+Hieruit volgt dat $\text{Graad}(Q_k) = k-1$.
 
 \setcounter{section}{4}
 \section*{Opdracht 4}
-Zoals beschreven in de opgavenbundel is voor $r=\pi/2$ de integrand van $A_n(r) = \int_{-1}^{1}\left(1-x^2\right)^n\cos\left(rx\right)\,dx$ positief, dus is $0<A_n\left(\frac{\pi}{2}\right).$ 
-Hieruit volgt dat het voldoende is om aan te tonen dat 
+Zoals beschreven in de opgavenbundel is voor $r=\pi/2$ de integrand van $A_n(r) = \int_{-1}^{1}\left(1-x^2\right)^n\cos\left(rx\right)\,dx$ positief en dus $0<A_n\left(\frac{\pi}{2}\right).$ 
+Daarmee volstaat het om aan te tonen dat 
 \begin{equation}
     \frac{a^{2n+1}}{n!}A_n\left(\frac{\pi}{2}\right)\in\mathbb{Z}.\label{eq:4.1}
 \end{equation} 
-Uit de vorige opgave volgt dat 
+Uit \ref{eq:A_recursie} is 
 $$    \frac{a^{2n+1}}{n!}A_n\left(\frac{\pi}{2}\right) =\frac{a^{2n+1}}{n!}\frac{n!}{\left(\frac{a}{b}\right)^{2n+1}}\left[P_n\left(\frac{a}{b}\right)\sin{\left(\frac{a}{b}\right)}-Q_n\left(\frac{a}{b}\right)\cos{\left(\frac{a}{b}\right)}\right].$$
-    Omdat $a/b = \pi/2$, kunnen we \eqref{eq:4.1} herleiden tot
+    Ook sinds $a/b = \pi/2$, is probleem \eqref{eq:4.1} te vereenvoudigen tot het aantonen van
    \begin{equation}
        b^{2n+1}P_n\left(\frac{a}{b}\right)\in\mathbb{Z}. \label{eq:4.2}
    \end{equation}
-We tonen dit aan met inductie. In opdracht 3 zagen we dat $P_0(r) = 2$ en $P_1(r) =4$, dus de basisstap is voldaan. Zij nu $n\geq 2$ en veronderstel dat \eqref{eq:4.2} voldaan is voor elke $k<n$. We gebruiken de recursieformule voor $P_n$ zodat
+We doen met inductie. In opdracht 3 zagen we dat $P_0(r) = 2$ en $P_1(r) =4$, dus voor de basisstap houd \eqref{eq:4.2} stand. Zij nu $n\geq 2$ en veronderstel dat er aan \eqref{eq:4.2} voldaan is voor elke $k<n$. We gebruiken de recursieformule voor $P_n$ zodat
 \begin{align*}
      b^{2n+1}P_n\left(\frac{a}{b}\right)&=b^{2n+1}\left[\left(4n-2\right)P_{n-1}\left(\frac{a}{b}\right)-4\frac{a^2}{b^2}P_{n-2}\left(\frac{a}{b}\right)\right]\\
                &=\left(4n-2\right)b^2\left[b^{2n-1}P_{n-1}\left(\frac{a}{b}\right)\right] - 4a^2b^2\left[b^{2n-3}P_{n-2}\left(\frac{a}{b}\right)\right].
 \end{align*}
-Uit de inductiehypothese en de definitie van $a$ en $b$ volgt dat alle termen in deze gelijkheid geheel zijn, dus is het resultaat opnieuw geheel.
+Uit de inductiehypothese volgt dat alle termen in deze gelijkheid moeten geheel zijn en daarmee zal dus ook $b^{2n+1}P_n\left(\frac{a}{b}\right)$ geheel zijn.
 
+
+% Note: We gebruiken beter geen algemene c, want dan moet je aantonen dat de b_n langs onder begrensd is! Bij c=a^2 is b_n steeds positief.
+%       We noemen de rij ook anders om geen verwarring met a/b = pi/2 te krijgen
 \section*{Opdracht 5}
-Neem de reeks $\{b_n\}_{n\in\mathbb{N}}=\{\frac{c^{n}}{n!}\}_{n\in\mathbb{N}}$ waarbij $c\in\mathbb{R}$. Kies een $N$ waarvoor $N>c$. Voor $n>N$ zal
-$$b_{n+1}/b_n=\frac{c}{n}<1$$ zodat $b_{n+1}<b_n$ en dus de reeks $\{b_n\}_{n>N}$ monotonisch daalt. Hieruit volgt er dat $\{b_n\}_{n\in\mathbb{N}}$ convergeert. 
-Laat dus $b=\lim_{n\to\infty}b_n$, aangezien dat $b_{n+1}=\frac{c}{n}b_n$: kunnen we door de limiet van beiden leden te nemen krijgen dat $b=0$.
-
-aldus, kies $c=a^2:$ waaruit
-$$\lim_{n\to\infty}\frac{n!}{a^{2n+1}}=\lim_{n\to\infty}\frac{1}{ab_n}=\infty$$
+Stel $c=a^2$ en beschouw de rij $\left\{x_n\right\}_{n\in\mathbb{N}}=\left\{\frac{c^{n}}{n!}\right\}_{n\in\mathbb{N}}$. We kiezen een $N>c$, zodat voor elke $n\in\mathbb{N}$ met $n>N$ geldt dat
+$$\frac{x_{n+1}}{x_n}=\frac{c}{n}<1.$$ Hieruit volgt dat $x_{n+1}<x_n$ en dus daalt de rij $\left\{x_n\right\}_{n>N}$ monotoon. Omdat $c>0$, is deze rij steeds positief en dus langs onder begrensd. Hieruit volgt dat $\left\{x_n\right\}_{n\in\mathbb{N}}$ convergeert. 
+We noemen $x=\lim_{n\to\infty}x_n$. Aangezien $x_{n+1}=\frac{c}{n}x_n$ vinden we door de limiet van beiden leden te nemen dat 
+$$ x = \lim_{n\to\infty} \frac{c}{n} x_n= 0\cdot x, \quad \text{dus } x=0.$$
+Nu volgt dat
+$$\lim_{n\to\infty}\frac{n!}{a^{2n+1}}=\frac{1}{a}\lim_{n\to\infty}\frac{1}{x_n}=\infty.$$
 
 
 \end{document}
